@@ -41,10 +41,17 @@ public class AdTapsy implements InterfaceAds {
 
 			@Override
 			public void onAdClicked() {
-				AdsWrapper.onAdsResult(mAdapter,
+			    AdsWrapper.onAdsResult(mAdapter,
 						AdsWrapper.RESULT_CODE_AdsDismissed,
 						"Ad clicked by user");
 			}
+			@Override
+			public void onAdLoaded() {
+
+                    AdsWrapper.onAdsResult(mAdapter, AdsWrapper.RESULT_CODE_AdsReceived,
+						"Ad loaded");
+			}
+
 		});
 		String appId = devInfo.get("appId");
 		if(appId==null){

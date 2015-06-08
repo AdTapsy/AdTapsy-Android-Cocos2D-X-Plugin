@@ -10,15 +10,17 @@ class MyAdsListener: public cocos2d::plugin::AdsListener
 {
 	void onAdsResult(cocos2d::plugin::AdsResultCode code, const char* msg)
 	{
-		if(code == cocos2d::plugin::AdsResultCode::kAdsShown)
-		{
-			CCLOG("*** AdTapsy Ad Shown ***");
-		} else if(code == cocos2d::plugin::AdsResultCode::kAdsDismissed)
-		{
-			CCLOG("*** AdTapsy Ad Dismissed ***");
-		} else if(code == cocos2d::plugin::AdsResultCode::kUnknownError){
-			CCLOG("*** AdTapsy Ad Failed To Show ***");
-		}
+			if(code == cocos2d::plugin::AdsResultCode::kAdsShown)
+			{
+				CCLOG("*** AdTapsy Ad Shown ***");
+			} else if(code == cocos2d::plugin::AdsResultCode::kAdsDismissed)
+			{
+				CCLOG("*** AdTapsy Ad Dismissed ***");
+			} else if(code == cocos2d::plugin::AdsResultCode::kUnknownError){
+				CCLOG("*** AdTapsy Ad Failed To Show");
+			} else if(code == cocos2d::plugin::AdsResultCode::kAdsReceived){
+				CCLOG("*** AdTapsy Ad Loaded***");
+			}
 
 	}
 	void onPlayerGetPoints(cocos2d::plugin::ProtocolAds* pAdsPlugin, int points)
@@ -30,7 +32,7 @@ Scene* HelloWorld::createScene()
 {
     // 'scene' is an autorelease object
     auto scene = Scene::create();
-    
+
     // 'layer' is an autorelease object
     auto layer = HelloWorld::create();
 
@@ -59,7 +61,7 @@ bool HelloWorld::init()
     {
         return false;
     }
-    
+
     Size visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
@@ -72,7 +74,7 @@ bool HelloWorld::init()
                                            "CloseNormal.png",
                                            "CloseSelected.png",
                                            CC_CALLBACK_1(HelloWorld::menuCloseCallback, this));
-    
+
 	closeItem->setPosition(Vec2(origin.x + visibleSize.width - closeItem->getContentSize().width/2 ,
                                 origin.y + closeItem->getContentSize().height/2));
 
@@ -91,9 +93,9 @@ bool HelloWorld::init()
 
     // add a label shows "Hello World"
     // create and initialize a label
-    
+
     auto label = Label::createWithTTF("Hello World", "fonts/Marker Felt.ttf", 24);
-    
+
     // position the label on the center of the screen
     label->setPosition(Vec2(origin.x + visibleSize.width/2,
                             origin.y + visibleSize.height - label->getContentSize().height));
@@ -109,7 +111,7 @@ bool HelloWorld::init()
 
     // add the sprite as a child to this layer
   //  this->addChild(sprite, 0);
-    
+
     return true;
 }
 
@@ -129,5 +131,5 @@ void HelloWorld::menuCloseCallback(Ref* pSender)
 }
 void HelloWorld::showAd(Ref* pSeonder)
 {
-	adtapsy-> showAds(std::map<std::string,std::string>());
+	 adtapsy-> showAds(std::map<std::string,std::string>());
 }
