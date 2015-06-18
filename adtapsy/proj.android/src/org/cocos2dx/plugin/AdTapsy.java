@@ -46,10 +46,10 @@ public class AdTapsy implements InterfaceAds {
 						"Ad clicked by user");
 			}
 			@Override
-			public void onAdLoaded() {
+			public void onAdCached() {
 
                     AdsWrapper.onAdsResult(mAdapter, AdsWrapper.RESULT_CODE_AdsReceived,
-						"Ad loaded");
+						"Ad cached");
 			}
 
 		});
