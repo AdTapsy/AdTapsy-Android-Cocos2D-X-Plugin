@@ -17,6 +17,8 @@ public:
     
     void showAd(cocos2d::Ref* pSender);
 
+    void showRewarded(cocos2d::Ref* pSender);
+
     // implement the "static create()" method manually
     CREATE_FUNC(HelloWorld);
 };

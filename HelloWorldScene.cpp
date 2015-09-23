@@ -25,7 +25,7 @@ class MyAdsListener: public cocos2d::plugin::AdsListener
 	}
 	void onPlayerGetPoints(cocos2d::plugin::ProtocolAds* pAdsPlugin, int points)
 	{
-
+		CCLOG("*** AdTapsy Reward Received***");
 	}
 };
 Scene* HelloWorld::createScene()
@@ -55,6 +55,15 @@ bool HelloWorld::init()
 
 	adtapsy->setAdsListener(listener);
 	adtapsy-> configDeveloperInfo(developer_info);
+	cocos2d::plugin::PluginParam rewardAmount(10);
+	adtapsy-> callFuncWithParam("setRewardedVideoAmount", &rewardAmount, NULL);
+	cocos2d::plugin::PluginParam userId("userId");
+	adtapsy-> callFuncWithParam("setUserIdentifier", &userId, NULL);
+	cocos2d::plugin::PluginParam showPrePopup(false);
+	adtapsy-> callFuncWithParam("setRewardedVideoPrePopupEnabled", &showPrePopup, NULL);
+	cocos2d::plugin::PluginParam showPostPopup(false);
+	adtapsy-> callFuncWithParam("setRewardedVideoPostPopupEnabled", &showPostPopup, NULL);
+
     //////////////////////////////
     // 1. super init first
     if ( !Layer::init() )
@@ -79,12 +88,16 @@ bool HelloWorld::init()
                                 origin.y + closeItem->getContentSize().height/2));
 
 
-	auto showAdButton = MenuItemImage::create("HelloWorld.png", "HelloWorld.png", CC_CALLBACK_1(HelloWorld::showAd, this));
-	showAdButton->setPosition(Vec2(origin.x + visibleSize.width/2 ,
-	                                origin.y + visibleSize.height/2));
+	auto showAdLabel = MenuItemLabel::create(LabelTTF::create("Show Interstitial", "Courier New.ttf", 51), CC_CALLBACK_1(HelloWorld::showAd, this));
+	showAdLabel->setPosition(Vec2(origin.x + visibleSize.width/3.5 ,
+            origin.y + visibleSize.height/2 ));
+
+	auto showRewardedLabel = MenuItemLabel::create(LabelTTF::create("Show Rewarded", "Courier New.ttf", 51), CC_CALLBACK_1(HelloWorld::showRewarded, this));
+	showRewardedLabel->setPosition(Vec2(origin.x + visibleSize.width/1.3 ,
+		                                origin.y + visibleSize.height/2));
 
 	// create menu, it's an autorelease object
-	auto menu = Menu::create(closeItem, showAdButton, NULL);
+	auto menu = Menu::create(closeItem, showAdLabel, showRewardedLabel, NULL);
     menu->setPosition(Vec2::ZERO);
     this->addChild(menu, 1);
 
@@ -131,5 +144,19 @@ void HelloWorld::menuCloseCallback(Ref* pSender)
 }
 void HelloWorld::showAd(Ref* pSeonder)
 {
-	 adtapsy-> showAds(std::map<std::string,std::string>());
+	 bool readyToShow = adtapsy-> callBoolFuncWithParam("isInterstitialReadyToShow", NULL);
+	 if(readyToShow){
+		 adtapsy-> callFuncWithParam("showInterstitial", NULL);
+	 } else {
+		 CCLOG("*** No ad ready to show***");
+	 }
+}
+void HelloWorld::showRewarded(Ref* pSeonder)
+{
+	bool readyToShow = adtapsy-> callBoolFuncWithParam("isRewardedVideoReadyToShow", NULL);
+	if(readyToShow){
+		adtapsy-> callFuncWithParam("showRewardedVideo", NULL);
+	} else {
+		CCLOG("*** No ad ready to show***");
+	}
 }
