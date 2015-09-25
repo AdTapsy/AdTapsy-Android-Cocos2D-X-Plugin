@@ -51,7 +51,7 @@ bool HelloWorld::init()
 {
 	adtapsy = dynamic_cast<cocos2d::plugin::ProtocolAds*>(cocos2d::plugin::PluginManager::getInstance()->loadPlugin("AdTapsy"));
 	std::map<std::string,std::string> developer_info;
-	developer_info["appId"] = "53a412dde4b01470c1f0321e";
+	developer_info["appId"] = "54982cf7e4b052cd2a20a7b8";
 
 	adtapsy->setAdsListener(listener);
 	adtapsy-> configDeveloperInfo(developer_info);
