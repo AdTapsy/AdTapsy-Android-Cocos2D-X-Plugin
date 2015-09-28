@@ -2,12 +2,8 @@
 <manifestConfig xmlns:android="http://schemas.android.com/apk/res/android">
  
     
-	 <applicationCfg keyword="com.revmob.ads.fullscreen.FullscreenActivity">
-        <activity
-            android:name="com.revmob.ads.fullscreen.FullscreenActivity"
-            android:configChanges="keyboardHidden|orientation"
-            android:theme="@android:style/Theme.Translucent" >
-        </activity>
+	 <applicationCfg keyword="com.revmob.FullscreenActivity">
+         
 		 <!-- InMobi Activities -->
         <activity
             android:name="com.inmobi.androidsdk.IMBrowserActivity"
